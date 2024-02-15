@@ -95,6 +95,8 @@ locals {
 }
 
 resource "aws_subnet" "public" {
+  ignore_changes = [tags]
+
   count = local.create_public_subnets && (!var.one_nat_gateway_per_az || local.len_public_subnets >= length(var.azs)) ? local.len_public_subnets : 0
 
   assign_ipv6_address_on_creation                = var.enable_ipv6 && var.public_subnet_ipv6_native ? true : var.public_subnet_assign_ipv6_address_on_creation
@@ -222,6 +224,8 @@ locals {
 }
 
 resource "aws_subnet" "private" {
+  ignore_changes = [tags]
+
   count = local.create_private_subnets ? local.len_private_subnets : 0
 
   assign_ipv6_address_on_creation                = var.enable_ipv6 && var.private_subnet_ipv6_native ? true : var.private_subnet_assign_ipv6_address_on_creation
