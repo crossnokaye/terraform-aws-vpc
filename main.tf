@@ -95,7 +95,9 @@ locals {
 }
 
 resource "aws_subnet" "public" {
-  ignore_changes = [tags]
+  lifecycle {
+    ignore_changes = [tags]
+  }
 
   count = local.create_public_subnets && (!var.one_nat_gateway_per_az || local.len_public_subnets >= length(var.azs)) ? local.len_public_subnets : 0
 
@@ -224,7 +226,9 @@ locals {
 }
 
 resource "aws_subnet" "private" {
-  ignore_changes = [tags]
+  lifecycle {
+    ignore_changes = [tags]
+  }
 
   count = local.create_private_subnets ? local.len_private_subnets : 0
 
